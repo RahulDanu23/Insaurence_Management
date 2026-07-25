@@ -44,7 +44,7 @@ const Register = () => {
           <div className="h-16 w-16 bg-sky-50 rounded-full flex items-center justify-center mb-4 border border-sky-100 shadow-[0_0_15px_rgba(2,132,199,0.1)]">
             <ShieldCheck className="h-8 w-8 text-sky-600" />
           </div>
-          <h2 className="text-3xl font-bold text-slate-900 tracking-wide">Join Innovix</h2>
+          <h2 className="text-3xl font-bold text-slate-900 tracking-wide">Join Aura Insurance</h2>
           <p className="text-slate-500 mt-2 text-sm">Create your new account</p>
         </div>
 

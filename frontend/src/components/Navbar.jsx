@@ -19,9 +19,9 @@ const Navbar = () => {
         <div className="flex justify-between h-16 items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <ShieldAlert className="h-8 w-8 text-sky-600 group-hover:text-sky-700 transition-colors" />
+            <img src="/logo.png" alt="Aura Logo" className="h-10 w-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform" />
             <span className="text-xl font-bold tracking-wider text-slate-900">
-              INNOVIX<span className="text-sky-600">.INSURE</span>
+              InsuraX
             </span>
           </Link>
 
