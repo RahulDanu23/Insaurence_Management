@@ -53,7 +53,7 @@ const Login = () => {
             <ShieldCheck className="h-8 w-8 text-sky-600" />
           </div>
           <h2 className="text-3xl font-bold text-slate-900 tracking-wide">Welcome Back</h2>
-          <p className="text-slate-500 mt-2 text-sm">Sign in to your Aura Insurance account</p>
+          <p className="text-slate-500 mt-2 text-sm">Sign in to your InsuraX account</p>
         </div>
 
         {error && (
