@@ -44,6 +44,11 @@ let addCustomerByStaff = async (req, res) => {
       return res.status(400).json({ message: "User already exists with this email!" });
     }
 
+    const existingPhone = await customer.findOne({ phone });
+    if (existingPhone) {
+      return res.status(400).json({ message: "Customer with this phone number already exists!" });
+    }
+
     // 2. Create the User (role = Customer)
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -55,19 +60,25 @@ let addCustomerByStaff = async (req, res) => {
     });
     await newUser.save();
 
-    // 3. Create the Customer Profile
-    const profile = await customer.create({
-      user_id: newUser._id,
-      name,
-      email,
-      phone,
-      dob,
-      address,
-      agent_id: req.user.role === 'Agent' ? req.user._id : null,
-      profile_picture: profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0ea5e9&color=fff`
-    });
+    try {
+      // 3. Create the Customer Profile
+      const profile = await customer.create({
+        user_id: newUser._id,
+        name,
+        email,
+        phone,
+        dob,
+        address,
+        agent_id: req.user.role === 'Agent' ? req.user._id : null,
+        profile_picture: profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0ea5e9&color=fff`
+      });
 
-    return res.status(201).json({ message: 'Customer account and profile created successfully!', profile });
+      return res.status(201).json({ message: 'Customer account and profile created successfully!', profile });
+    } catch (profileError) {
+      // Rollback user creation if profile fails
+      await User.findByIdAndDelete(newUser._id);
+      throw profileError;
+    }
   } catch (error) {
     console.log('Add Customer Error:', error.message);
     return res.status(500).json({ message: 'Internal server error', error: error.message });
