@@ -35,7 +35,7 @@ let addCustomerByStaff = async (req, res) => {
     const { name, email, password, phone, dob, address } = req.body;
     let profile_picture = null;
     if (req.file) {
-      profile_picture = `http://localhost:3000/uploads/${req.file.filename}`;
+      profile_picture = `uploads/${req.file.filename}`;
     }
 
     // 1. Check if user already exists
