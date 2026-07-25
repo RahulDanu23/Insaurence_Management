@@ -6,13 +6,20 @@ import Register from './pages/Register'
 import CustomerDashboard from './pages/CustomerDashboard'
 import AdminDashboard from './pages/AdminDashboard'
 import AgentDashboard from './pages/AgentDashboard'
+import ChangePassword from './pages/ChangePassword'
 
 // Protected Route Wrapper
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const token = localStorage.getItem('token');
   const role = localStorage.getItem('role');
+  const requirePasswordChange = localStorage.getItem('requirePasswordChange');
   
   if (!token) return <Navigate to="/login" replace />;
+  
+  if (requirePasswordChange === 'true' && window.location.pathname !== '/change-password') {
+    return <Navigate to="/change-password" replace />;
+  }
+
   if (allowedRoles && !allowedRoles.includes(role)) {
     return <Navigate to="/login" replace />; // or an unauthorized page
   }
@@ -28,6 +35,15 @@ function App() {
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
+          <Route 
+            path="/change-password" 
+            element={
+              <ProtectedRoute>
+                <ChangePassword />
+              </ProtectedRoute>
+            } 
+          />
           
           <Route 
             path="/customer-dashboard" 

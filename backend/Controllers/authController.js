@@ -43,7 +43,12 @@ let login = async(req, res) => {
       })
     }
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: "1d"});
-    res.status(200).json({message: "User logged in successfully!", token, role: user.role});
+    res.status(200).json({
+      message: "User logged in successfully!", 
+      token, 
+      role: user.role,
+      requirePasswordChange: user.mustChangePassword
+    });
 
   } catch(error) {
     console.log("Error while login: ", error);
@@ -71,4 +76,27 @@ let getAllAgents = async(req, res) => {
   }
 }
 
-module.exports = {register, login, logout, getAllAgents};
+let changePassword = async(req, res) => {
+  try {
+    const { newPassword } = req.body;
+    const userId = req.user.id;
+
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters long." });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    await User.findByIdAndUpdate(userId, {
+      password: hashedPassword,
+      mustChangePassword: false
+    });
+
+    res.status(200).json({ message: "Password changed successfully!" });
+  } catch (error) {
+    console.log("Error changing password:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+module.exports = {register, login, logout, getAllAgents, changePassword};

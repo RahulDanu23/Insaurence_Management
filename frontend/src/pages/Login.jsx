@@ -21,16 +21,22 @@ const Login = () => {
         password
       });
 
-      const { token, role } = response.data;
+      const { token, role, requirePasswordChange } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
 
-      if (role === 'Customer') {
-        navigate('/customer-dashboard');
-      } else if (role === 'Agent') {
-        navigate('/agent-dashboard');
+      if (requirePasswordChange) {
+        localStorage.setItem('requirePasswordChange', 'true');
+        navigate('/change-password');
       } else {
-        navigate('/admin-dashboard');
+        localStorage.removeItem('requirePasswordChange');
+        if (role === 'Customer') {
+          navigate('/customer-dashboard');
+        } else if (role === 'Agent') {
+          navigate('/agent-dashboard');
+        } else {
+          navigate('/admin-dashboard');
+        }
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.');

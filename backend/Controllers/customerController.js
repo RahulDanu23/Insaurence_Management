@@ -50,7 +50,8 @@ let addCustomerByStaff = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: 'Customer'
+      role: 'Customer',
+      mustChangePassword: true
     });
     await newUser.save();
 
