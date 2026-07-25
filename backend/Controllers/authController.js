@@ -99,4 +99,35 @@ let changePassword = async(req, res) => {
   }
 }
 
-module.exports = {register, login, logout, getAllAgents, changePassword};
+let resetPassword = async(req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) {
+      return res.status(400).json({ message: "Email is required." });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "No account found with that email." });
+    }
+
+    // Set a temporary password
+    const tempPassword = "temp" + Math.floor(10000 + Math.random() * 90000);
+    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+    
+    await User.findByIdAndUpdate(user._id, {
+      password: hashedPassword,
+      mustChangePassword: true
+    });
+
+    res.status(200).json({ 
+      message: "Password reset successful.",
+      temporaryPassword: tempPassword
+    });
+  } catch (error) {
+    console.log("Error resetting password:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+module.exports = {register, login, logout, getAllAgents, changePassword, resetPassword};
