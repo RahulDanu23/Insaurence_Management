@@ -32,9 +32,9 @@ const AgentDashboard = () => {
     try {
       const headers = { Authorization: `Bearer ${token}` };
       const [customersRes, policiesRes, claimsRes] = await Promise.all([
-        axios.get('http://localhost:3000/api/reports/total-customers', { headers }),
-        axios.get('http://localhost:3000/api/reports/active-policies', { headers }),
-        axios.get('http://localhost:3000/api/reports/total-claims', { headers })
+        axios.get('https://insaurence-management.onrender.com/api/reports/total-customers', { headers }),
+        axios.get('https://insaurence-management.onrender.com/api/reports/active-policies', { headers }),
+        axios.get('https://insaurence-management.onrender.com/api/reports/total-claims', { headers })
       ]);
 
       setReports({
@@ -51,35 +51,35 @@ const AgentDashboard = () => {
 
   const loadCustomers = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/customers/get-all', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get('https://insaurence-management.onrender.com/api/customers/get-all', { headers: { Authorization: `Bearer ${token}` } });
       setCustomers(res.data.customers);
     } catch (err) {}
   };
 
   const loadPolicies = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/policies/all-policies', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get('https://insaurence-management.onrender.com/api/policies/all-policies', { headers: { Authorization: `Bearer ${token}` } });
       setPolicies(res.data.policies);
     } catch (err) {}
   };
 
   const loadClaims = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/claims/all', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get('https://insaurence-management.onrender.com/api/claims/all', { headers: { Authorization: `Bearer ${token}` } });
       setClaims(res.data.claims);
     } catch (err) {}
   };
 
   const loadPayments = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/premium/checkPaymentHistory', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get('https://insaurence-management.onrender.com/api/premium/checkPaymentHistory', { headers: { Authorization: `Bearer ${token}` } });
       setPayments(res.data);
     } catch (err) {}
   };
 
   const loadDocuments = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/documents/all', { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get('https://insaurence-management.onrender.com/api/documents/all', { headers: { Authorization: `Bearer ${token}` } });
       setDocuments(res.data.documents || []);
     } catch (err) {}
   };
@@ -99,7 +99,7 @@ const AgentDashboard = () => {
         formData.append('profile_picture', newCustomer.profile_picture);
       }
 
-      await axios.post('http://localhost:3000/api/customers/add-by-staff', formData, { 
+      await axios.post('https://insaurence-management.onrender.com/api/customers/add-by-staff', formData, { 
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -118,7 +118,7 @@ const AgentDashboard = () => {
     e.preventDefault();
     setMessage('');
     try {
-      await axios.post('http://localhost:3000/api/policies/create-policy', newPolicy, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post('https://insaurence-management.onrender.com/api/policies/create-policy', newPolicy, { headers: { Authorization: `Bearer ${token}` } });
       setMessage('Policy created successfully!');
       setNewPolicy({ customer_id: '', policy_number: '', policy_type: 'Health', policy_amount: '', policy_start_date: '', policy_end_date: '', policy_status: 'Active' });
       loadPolicies();
@@ -132,7 +132,7 @@ const AgentDashboard = () => {
     e.preventDefault();
     setMessage('');
     try {
-      await axios.post('http://localhost:3000/api/premium/recordPremiumPayment', newPayment, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post('https://insaurence-management.onrender.com/api/premium/recordPremiumPayment', newPayment, { headers: { Authorization: `Bearer ${token}` } });
       setMessage('Payment recorded successfully!');
       setNewPayment({ policy_id: '', amount: '' });
       loadPayments();
@@ -145,7 +145,7 @@ const AgentDashboard = () => {
     try {
       const newEndDate = new Date(currentEndDate);
       newEndDate.setFullYear(newEndDate.getFullYear() + 1); // Add 1 year
-      await axios.put(`http://localhost:3000/api/policies/renew-policy/${id}`, { policy_end_date: newEndDate.toISOString() }, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.put(`https://insaurence-management.onrender.com/api/policies/renew-policy/${id}`, { policy_end_date: newEndDate.toISOString() }, { headers: { Authorization: `Bearer ${token}` } });
       loadPolicies();
     } catch (err) {
       console.log('Error renewing policy');
@@ -155,7 +155,7 @@ const AgentDashboard = () => {
   const handleDeleteCustomer = async (id) => {
     if (!window.confirm("Are you sure you want to delete this customer? This will also delete their user account, policies, claims, and payments.")) return;
     try {
-      await axios.delete(`http://localhost:3000/api/customers/delete-customer/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`https://insaurence-management.onrender.com/api/customers/delete-customer/${id}`, { headers: { Authorization: `Bearer ${token}` } });
       loadCustomers();
       fetchData();
     } catch (err) {
@@ -165,7 +165,7 @@ const AgentDashboard = () => {
 
   const updateClaimStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:3000/api/claims/update-status/${id}`, { claim_status: status }, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.put(`https://insaurence-management.onrender.com/api/claims/update-status/${id}`, { claim_status: status }, { headers: { Authorization: `Bearer ${token}` } });
       loadClaims();
     } catch (err) {
       console.log('Error updating claim');
@@ -479,7 +479,7 @@ const AgentDashboard = () => {
               <p className="text-sm text-slate-600 mt-1">Customer: {d.customer_id?.name || 'Unknown'}</p>
               <p className="text-xs text-slate-400 mt-1">Uploaded: {new Date(d.createdAt).toLocaleDateString()}</p>
             </div>
-            <a href={`http://localhost:3000/${d.file_path}`} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-sm font-bold transition-colors shadow-sm">
+            <a href={`https://insaurence-management.onrender.com/${d.file_path}`} target="_blank" rel="noopener noreferrer" className="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white rounded-xl text-sm font-bold transition-colors shadow-sm">
               View Document
             </a>
           </div>

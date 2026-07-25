@@ -28,7 +28,7 @@ const CustomerDashboard = () => {
 
   const fetchProfile = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/customers/get-profile', {
+      const res = await axios.get('https://insaurence-management.onrender.com/api/customers/get-profile', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setProfile(res.data.profile);
@@ -47,28 +47,28 @@ const CustomerDashboard = () => {
 
   const fetchPolicies = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/policies/my-policies`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get(`https://insaurence-management.onrender.com/api/policies/my-policies`, { headers: { Authorization: `Bearer ${token}` } });
       setPolicies(res.data);
     } catch (err) {}
   };
 
   const fetchClaims = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/claims/my-claims`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get(`https://insaurence-management.onrender.com/api/claims/my-claims`, { headers: { Authorization: `Bearer ${token}` } });
       setClaims(res.data.claims || []);
     } catch (err) {}
   };
 
   const fetchPremiums = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/premium/my-payments`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get(`https://insaurence-management.onrender.com/api/premium/my-payments`, { headers: { Authorization: `Bearer ${token}` } });
       setPremiums(res.data.payments || []);
     } catch (err) {}
   };
 
   const fetchDocuments = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/documents/my-documents`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get(`https://insaurence-management.onrender.com/api/documents/my-documents`, { headers: { Authorization: `Bearer ${token}` } });
       setDocuments(res.data.documents || []);
     } catch (err) {}
   };
@@ -77,7 +77,7 @@ const CustomerDashboard = () => {
     e.preventDefault();
     setClaimMessage('');
     try {
-      await axios.post(`http://localhost:3000/api/claims/submit`, newClaim, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.post(`https://insaurence-management.onrender.com/api/claims/submit`, newClaim, { headers: { Authorization: `Bearer ${token}` } });
       setClaimMessage('Claim submitted successfully!');
       setNewClaim({ policy_id: '', claim_amount: '', claim_reason: '' });
       fetchClaims();
@@ -104,7 +104,7 @@ const CustomerDashboard = () => {
       formData.append('document_type', newDocument.document_type);
       formData.append('file', newDocument.file);
 
-      await axios.post('http://localhost:3000/api/documents/upload', formData, {
+      await axios.post('https://insaurence-management.onrender.com/api/documents/upload', formData, {
         headers: { 
           Authorization: `Bearer ${token}`,
           'Content-Type': 'multipart/form-data'
@@ -329,7 +329,7 @@ const CustomerDashboard = () => {
                         <p className="text-sm text-slate-500">{d.file_name}</p>
                         <p className="text-xs text-slate-400 mt-1">Uploaded: {new Date(d.createdAt).toLocaleDateString()}</p>
                       </div>
-                      <a href={`http://localhost:3000/${d.file_path}`} target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded text-xs font-bold transition-colors">
+                      <a href={`https://insaurence-management.onrender.com/${d.file_path}`} target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-emerald-100 text-emerald-700 hover:bg-emerald-200 rounded text-xs font-bold transition-colors">
                         View
                       </a>
                     </div>
