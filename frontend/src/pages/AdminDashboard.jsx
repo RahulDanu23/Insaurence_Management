@@ -20,7 +20,7 @@ const AdminDashboard = () => {
   const [documents, setDocuments] = useState([]);
 
   // Forms
-  const [newCustomer, setNewCustomer] = useState({ name: '', email: '', password: '', phone: '', dob: '', address: '', profile_picture: null });
+  const [newCustomer, setNewCustomer] = useState({ name: '', email: '', password: '', phone: '', dob: '', address: '' });
   const [customerMessage, setCustomerMessage] = useState('');
   
   const [newAgent, setNewAgent] = useState({ name: '', email: '', password: '', role: 'Agent' });
@@ -117,25 +117,20 @@ const AdminDashboard = () => {
     e.preventDefault();
     setCustomerMessage('');
     try {
-      const formData = new FormData();
-      formData.append('name', newCustomer.name);
-      formData.append('email', newCustomer.email);
-      formData.append('password', newCustomer.password);
-      formData.append('phone', newCustomer.phone);
-      formData.append('dob', newCustomer.dob);
-      formData.append('address', newCustomer.address);
-      if (newCustomer.profile_picture) {
-        formData.append('profile_picture', newCustomer.profile_picture);
-      }
-
-      await axios.post('https://insaurence-management.onrender.com/api/customers/add-by-staff', formData, { 
+      await axios.post('https://insaurence-management.onrender.com/api/customers/add-by-staff', {
+        name: newCustomer.name,
+        email: newCustomer.email,
+        password: newCustomer.password,
+        phone: newCustomer.phone,
+        dob: newCustomer.dob,
+        address: newCustomer.address
+      }, { 
         headers: { 
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data'
+          Authorization: `Bearer ${token}`
         } 
       });
       setCustomerMessage('Customer created successfully!');
-      setNewCustomer({ name: '', email: '', password: '', phone: '', dob: '', address: '', profile_picture: null });
+      setNewCustomer({ name: '', email: '', password: '', phone: '', dob: '', address: '' });
       loadCustomers();
       fetchReports();
     } catch (err) {
@@ -305,7 +300,7 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[600px] overflow-y-auto pr-2">
           {filteredCustomers.map(c => (
             <div key={c._id} className="p-6 border border-slate-200 rounded-2xl hover:bg-slate-50 transition-colors shadow-sm flex flex-col items-center text-center">
-              <img src={c.profile_picture ? `https://insaurence-management.onrender.com/${c.profile_picture}` : `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=0ea5e9&color=fff`} alt={c.name} className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-sky-100" />
+              <img src={`https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=0ea5e9&color=fff`} alt={c.name} className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-sky-100" />
               <p className="font-bold text-xl text-slate-900 mb-1">{c.name}</p>
               <p className="text-sm text-slate-500 mb-4">{c.email}</p>
               <div className="w-full space-y-2 text-left bg-white border border-slate-100 p-3 rounded-xl text-sm mb-4">
@@ -338,10 +333,6 @@ const AdminDashboard = () => {
           <input type="password" placeholder="Temporary Password" required value={newCustomer.password} onChange={e => setNewCustomer({...newCustomer, password: e.target.value})} className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none" />
           <input type="text" placeholder="Phone Number" required value={newCustomer.phone} onChange={e => setNewCustomer({...newCustomer, phone: e.target.value})} className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none" />
           <input type="date" required value={newCustomer.dob} onChange={e => setNewCustomer({...newCustomer, dob: e.target.value})} className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none" />
-          <div className="flex flex-col justify-center">
-            <label className="text-xs text-slate-500 font-bold uppercase tracking-wider mb-1 px-1">Profile Picture (Optional)</label>
-            <input type="file" accept="image/*" onChange={e => setNewCustomer({...newCustomer, profile_picture: e.target.files[0]})} className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100" />
-          </div>
         </div>
         <textarea placeholder="Home Address" required value={newCustomer.address} onChange={e => setNewCustomer({...newCustomer, address: e.target.value})} className="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-sky-500 outline-none h-24"></textarea>
         <button type="submit" className="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3.5 rounded-xl transition-all shadow-md shadow-sky-600/20 text-lg mt-4">Create Customer Profile</button>

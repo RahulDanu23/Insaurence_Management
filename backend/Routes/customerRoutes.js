@@ -16,7 +16,7 @@ const upload = require('../middleware/uploadMiddleware');
 router.use(authMiddleware);
 
 router.post('/create-profile', createCustomerProfile);
-router.post('/add-by-staff', roleMiddleware(['Admin', 'Agent']), upload.single('profile_picture'), addCustomerByStaff);
+router.post('/add-by-staff', roleMiddleware(['Admin', 'Agent']), addCustomerByStaff);
 router.get('/get-profile', getMyProfile);
 router.put('/update-profile', updateCustomerProfile);
 router.delete('/delete-profile', deleteCustomerProfile);

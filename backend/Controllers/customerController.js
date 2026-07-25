@@ -33,10 +33,7 @@ let createCustomerProfile = async (req, res) => {
 let addCustomerByStaff = async (req, res) => {
   try {
     const { name, email, password, phone, dob, address } = req.body;
-    let profile_picture = null;
-    if (req.file) {
-      profile_picture = `uploads/${req.file.filename}`;
-    }
+
 
     // 1. Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -70,7 +67,7 @@ let addCustomerByStaff = async (req, res) => {
         dob,
         address,
         agent_id: req.user.role === 'Agent' ? req.user._id : null,
-        profile_picture: profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0ea5e9&color=fff`
+        profile_picture: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0ea5e9&color=fff`
       });
 
       return res.status(201).json({ message: 'Customer account and profile created successfully!', profile });
