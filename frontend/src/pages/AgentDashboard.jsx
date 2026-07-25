@@ -249,7 +249,7 @@ const AgentDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-h-[600px] overflow-y-auto pr-2">
           {filteredCustomers.map(c => (
             <div key={c._id} className="p-6 border border-slate-200 rounded-2xl hover:bg-slate-50 transition-colors shadow-sm flex flex-col items-center text-center">
-              <img src={c.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=0ea5e9&color=fff`} alt={c.name} className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-sky-100" />
+              <img src={c.profile_picture ? `https://insaurence-management.onrender.com/${c.profile_picture}` : `https://ui-avatars.com/api/?name=${encodeURIComponent(c.name)}&background=0ea5e9&color=fff`} alt={c.name} className="w-20 h-20 rounded-full object-cover mb-4 border-2 border-sky-100" />
               <p className="font-bold text-xl text-slate-900 mb-1">{c.name}</p>
               <p className="text-sm text-slate-500 mb-4">{c.email}</p>
               <div className="w-full space-y-2 text-left bg-white border border-slate-100 p-3 rounded-xl text-sm mb-4">

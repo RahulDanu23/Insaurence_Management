@@ -141,7 +141,7 @@ const CustomerDashboard = () => {
               <div className="flex flex-col items-center justify-center border-r-0 md:border-r border-slate-200 pr-0 md:pr-8">
                 <div className="relative">
                   <div className="absolute inset-0 bg-sky-100 rounded-full blur-md transform scale-110"></div>
-                  <img src={profile.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}&background=0ea5e9&color=fff&size=256`} alt="Profile" className="relative w-48 h-48 rounded-full shadow-lg object-cover border-4 border-white" />
+                  <img src={profile.profile_picture ? `https://insaurence-management.onrender.com/${profile.profile_picture}` : `https://ui-avatars.com/api/?name=${encodeURIComponent(profile.name)}&background=0ea5e9&color=fff&size=256`} alt="Profile" className="relative w-48 h-48 rounded-full shadow-lg object-cover border-4 border-white" />
                 </div>
                 <h3 className="mt-6 text-2xl font-black text-slate-900">{profile.name}</h3>
                 <span className="px-3 py-1 bg-sky-100 text-sky-700 text-xs font-bold rounded-full mt-2 uppercase tracking-wide">Customer</span>
