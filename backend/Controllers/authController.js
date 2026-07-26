@@ -101,9 +101,13 @@ let changePassword = async(req, res) => {
 
 let resetPassword = async(req, res) => {
   try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ message: "Email is required." });
+    const { email, newPassword } = req.body;
+    if (!email || !newPassword) {
+      return res.status(400).json({ message: "Email and new password are required." });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters long." });
     }
 
     const user = await User.findOne({ email });
@@ -111,18 +115,15 @@ let resetPassword = async(req, res) => {
       return res.status(404).json({ message: "No account found with that email." });
     }
 
-    // Set a temporary password
-    const tempPassword = "temp" + Math.floor(10000 + Math.random() * 90000);
-    const hashedPassword = await bcrypt.hash(tempPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     
     await User.findByIdAndUpdate(user._id, {
       password: hashedPassword,
-      mustChangePassword: true
+      mustChangePassword: false
     });
 
     res.status(200).json({ 
-      message: "Password reset successful.",
-      temporaryPassword: tempPassword
+      message: "Password updated successfully! You can now log in."
     });
   } catch (error) {
     console.log("Error resetting password:", error);
