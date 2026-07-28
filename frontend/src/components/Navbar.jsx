@@ -20,7 +20,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <img src="/logo.svg" alt="InsuraX Logo" className="h-10 w-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform" />
-            <span className="text-xl font-bold tracking-wider text-slate-900">
+            <span className="text-2xl font-black tracking-wider bg-gradient-to-r from-sky-600 to-violet-400 text-transparent bg-clip-text">
               INSURA<span className="text-sky-600">X</span>
             </span>
           </Link>

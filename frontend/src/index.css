@@ -1,1 +1,27 @@
 @import "tailwindcss";
+
+@theme {
+  /* Override Sky (Current Primary) with Calm Blue (#3B82F6) tones */
+  --color-sky-50: #eff6ff;
+  --color-sky-100: #dbeafe;
+  --color-sky-200: #bfdbfe;
+  --color-sky-300: #93c5fd;
+  --color-sky-400: #60a5fa;
+  --color-sky-500: #3b82f6;
+  --color-sky-600: #3b82f6; /* Calm Blue mapped to our main button class */
+  --color-sky-700: #2563eb; /* Hover state */
+  --color-sky-800: #1d4ed8;
+  --color-sky-900: #1e3a8a;
+
+  /* Override Slate (Current Neutrals) with Light Pastels and Soft Grays */
+  --color-slate-50: #f9fafb; /* Light pastel background */
+  --color-slate-100: #f3f4f6;
+  --color-slate-200: #e5e7eb; /* Soft borders */
+  --color-slate-300: #d1d5db;
+  --color-slate-400: #9ca3af;
+  --color-slate-500: #6b7280;
+  --color-slate-600: #4b5563;
+  --color-slate-700: #374151;
+  --color-slate-800: #1f2937; /* Readable soft dark gray text */
+  --color-slate-900: #111827; /* Headings */
+}
